@@ -56,29 +56,41 @@ class TWED():
     def calculateCosts(self) -> np.float:
         """
         Calculates the resulting costs according to TWED (hence, similarity between t1 and t2).
+        Returns the costs.
         """
             
-        matrix  = self._init_matrix(self.n, self.m)
-        nu      = self._nu
-        lam     = self._lambda
-        t1_data = self.t1
-        t2_data = self.t2
-        t1_time = np.arange(1, self.n + 1, 1)
-        t2_time = np.arange(1, self.m + 1, 1)
-        _abs    = np.abs
+        matrix  = self._init_matrix(self.n, self.m) #DP
+        nu      = self._nu                    #Elasticity
+        lam     = self._lambda                #Penalty for deletion
+        t1_data = self.t1                     #Time-series data for t1
+        t2_data = self.t2                     #Time-series data for t2
+        t1_time = np.arange(1, self.n + 1, 1) #Time-stamps for t1
+        t2_time = np.arange(1, self.m + 1, 1) #Time-stamps for t2
+        _abs    = np.abs                      #Distance-measure (LP)
         
         
         for i in range(1, self.n):
             for j in range(1, self.m):
-                cost = _abs(t1_data[i] - t2_data[j])
-                insertion = (matrix[i-1][j] + _abs(t1_data[i-1] - t1_data[i]) +
-                             nu*(t1_time[i] - t1_time[i-1] + lam))
-                deletion = (matrix[i][j-1] + _abs(t2_data[j-1] - t2_data[j]) +
-                            nu*(t2_time[j] - t2_time[j-1] + lam))
-                match = (matrix[i-1][j-1] + _abs(t1_data[i] - t2_data[j]) +
-                         nu*(_abs(t1_time[i] - t2_time[j])) +
-                         _abs(t1_time[i-1] - t2_time[j-1]) +
-                         nu*(_abs(t1_time[i-1] - t2_time[j-1])))
-                matrix[i][j] = min(insertion, deletion, match)
+                #cost = _abs(t1_data[i] - t2_data[j]) #Irrelevant for computation, just added for completeness
+                _deleteA = (
+                            matrix[i-1][j] + 
+                            _abs(t1_data[i-1] - t1_data[i]) +
+                            nu*(t1_time[i] - t1_time[i-1]) + lam
+                )
+                _deleteB = (
+                            matrix[i][j-1] + 
+                            _abs(t2_data[j-1] - t2_data[j]) +
+                            nu*(t2_time[j] - t2_time[j-1]) + lam
+                )
+                _match = (
+                            matrix[i-1][j-1] + 
+                            _abs(t1_data[i] - t2_data[j]) +
+                            _abs(t1_data[i-1] - t2_data[j-1]) +
+                            nu*(
+                                _abs(t1_time[i] - t2_time[j]) + 
+                                _abs(t1_time[i-1] - t2_time[j-1])
+                            ) 
+                )
+                matrix[i][j] = min(_deleteA, _deleteB, _match)
 
-        return matrix[self.n-1][self.m-1]
+        return matrix[self.n-1][self.m-1]    #-> Costs
