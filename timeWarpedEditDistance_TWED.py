@@ -55,7 +55,7 @@ class TWED():
     
     def calculateCosts(self) -> np.float:
         """
-        Calculates the resulting costs according to TWED (hence, similarity between t1 and t2).
+        Calculates the resulting costs according to TWED (hence, dissimilarity between t1 and t2).
         Returns the costs.
         """
             
