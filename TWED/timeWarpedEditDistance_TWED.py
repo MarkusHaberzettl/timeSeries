@@ -1,3 +1,6 @@
+#Rather use the memory-efficient version provided under memoryEfficient_TWED.py!
+import numpy as np
+
 class TWED():
     """
     Calculates the "Time-Warped Edit Distance" according to Marteau (2009), S. 312.
