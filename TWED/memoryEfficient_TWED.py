@@ -79,14 +79,7 @@ class memTWED():
     @jit
     def _calculateCosts(matrix, n, m, nu, lam, t1_data, t2_data) -> np.float:
         """
-        Calculates the resulting costs according to TWED (hence, dissimilarity between t1 and t2).
-        Returns the costs.
-            
-        matrix  = self._init_matrix()         #DP
-        nu      = self._nu                    #Elasticity
-        lam     = self._lambda                #Penalty for deletion
-        t1_data = self.t1                     #Time-series data for t1
-        t2_data = self.t2                     #Time-series data for t2
+        JIT-function wrapped by self.calculateCosts().
         """
         _abs    = np.abs                      #Distance-measure (LP)
         
