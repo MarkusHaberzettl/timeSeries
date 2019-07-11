@@ -17,7 +17,7 @@ class memTWED():
     
     ____
     Use like:
-    ```pyton
+    ```python
     
     memTWED(np.array([10,20,30,40,50]), np.array([15,25,35,45,55])).calculateCosts()
     ```
