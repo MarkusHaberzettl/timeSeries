@@ -42,6 +42,8 @@ class memTWED():
         
         if failOnDifferingLengths:
             assert self.n == self.m, f"Error, n != m!: {self.n}, {self.m}"
+        elif self.n < self.m:
+            print("Warning: n < m will result in long runtimes!")
         
         
     def _init_matrix(self) -> np.array:
