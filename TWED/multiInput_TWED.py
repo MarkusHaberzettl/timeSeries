@@ -22,7 +22,7 @@ class multiTWED():
     Use like:
     ```pyton
     
-    memTWED(np.array([10,20,30,40,50]), np.array([15,25,35,45,55])).calculateCosts()
+    multiTWED(np.arange(1,5,1), np.tile(np.arange(11,15,1), (3,1))).calculateCosts()
     ```
     """
     
